@@ -952,6 +952,67 @@
       font-family: 'Syne', 'Tajawal', sans-serif;
       direction: ltr;
     }
+
+    .disabled-zone {
+
+      opacity: .55;
+
+      cursor: not-allowed !important;
+
+      position: relative;
+
+      pointer-events: none;
+
+      border-color: #ef4444 !important;
+
+    }
+
+    .disabled-zone::before {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        repeating-linear-gradient(-45deg,
+          rgba(239, 68, 68, .08),
+          rgba(239, 68, 68, .08) 12px,
+          transparent 12px,
+          transparent 24px);
+
+      border-radius: inherit;
+
+    }
+
+    .disabled-zone::after {
+
+      content: "COMING SOON";
+
+      position: absolute;
+
+      top: 14px;
+
+      left: 14px;
+
+      background: #ef4444;
+
+      color: white;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      padding: 5px 10px;
+
+      border-radius: 50px;
+
+      letter-spacing: 1px;
+
+      z-index: 2;
+
+    }
   </style>
 </head>
 
@@ -1051,14 +1112,16 @@
         <div class="upload-filename" id="cvName"></div>
       </label>
 
-      <label class="upload-zone optional-badge" id="portfolioZone" for="portfolioFile">
+      <!-- <label class="upload-zone optional-badge" id="portfolioZone" for="portfolioFile"> -->
+      <div class="upload-zone disabled-zone" id="portfolioZone">
         <div class="upload-icon"><i class="fa-solid fa-palette" id="portfolioIcon"></i></div>
         <div class="upload-title"><span class="ar">رفع قالب HTML</span><span class="en">Upload HTML Template</span>
         </div>
         <div class="upload-sub"><span class="ar">قالب مخصص اختياري<br>سيتم الحفاظ على التصميم بالكامل</span><span
             class="en">Optional custom template<br>Full design will be preserved</span></div>
         <div class="upload-filename" id="portfolioName"></div>
-      </label>
+      </div>
+      <!-- </label> -->
     </div>
 
     <!-- STATUS BAR -->
