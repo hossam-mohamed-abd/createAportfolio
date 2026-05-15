@@ -914,6 +914,23 @@
       animation-delay: 0.32s;
     }
 
+
+    footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .7rem;
+      color: var(--gray2);
+      letter-spacing: .08em;
+      position: relative;
+      top: 80px;
+    }
+
+
+
     /* ===== LANG HELPERS ===== */
     .ar {
       display: inline;
@@ -1132,7 +1149,10 @@
     </div>
 
   </div>
-
+  <footer>
+    <p>Designed & built by <a href="https://www.linkedin.com/in/hossam-mohamed-abd/"><span>Hossam Mohamed</span></a></p>
+    <p>&nbsp;·&nbsp; © 2025</p>
+  </footer>
   <script>
     let generatedHTML = "";
     let currentTheme = "dark";
@@ -1360,17 +1380,67 @@ ${htmlTemplate}
 
         if (!response.ok) {
 
-          const errorText =
-            await response.text();
+          let errorData = null;
 
-          console.error(errorText);
+          try {
 
-          throw new Error(
+            errorData =
+              await response.json();
 
-            "Server Error: " +
-            response.status
+          }
+
+          catch {
+
+            errorData = null;
+
+          }
+
+          /*
+            Daily limit
+          */
+
+          if (
+            response.status === 429 ||
+            errorData?.message === "Daily limit reached"
+          ) {
+
+            setStatus(
+
+              currentLang === "ar"
+                ? "لقد استخدمت الحد اليومي المسموح. يمكنك المحاولة غدًا."
+                : "You reached your daily limit. Try again tomorrow.",
+
+              "error"
+
+            );
+
+            btn.disabled = false;
+            btn.classList.remove("loading");
+            icon.style.display = "";
+
+            return;
+
+          }
+
+          /*
+            Other errors
+          */
+
+          setStatus(
+
+            currentLang === "ar"
+              ? "حدث خطأ في السيرفر"
+              : "Server error",
+
+            "error"
 
           );
+
+          btn.disabled = false;
+          btn.classList.remove("loading");
+          icon.style.display = "";
+
+          return;
 
         }
 
