@@ -1017,210 +1017,218 @@
 </head>
 
 <body data-lang="ar">
-  <div class="page-wrap">
+  <main style="min-height: 87vh;">
 
-    <!-- TOPBAR -->
-    <header class="topbar fade-in">
-      <div class="brand">
-        <div class="brand-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-        <div class="brand-text">
-          <h1>AI Portfolio Builder</h1>
-          <p><span class="ar">أنشئ بورتفوليو احترافي من CV في ثوانٍ</span><span class="en">Turn your CV into a stunning
-              portfolio in seconds</span></p>
-        </div>
-      </div>
-      <div class="topbar-actions">
-        <button class="lang-switcher" onclick="toggleLang()" id="langBtn">
-          <i class="fa-solid fa-language"></i>
-          <span class="ar">English</span><span class="en">عربي</span>
-        </button>
-        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
-          <i class="fa-solid fa-moon" id="themeIcon"></i>
-        </button>
-      </div>
-    </header>
+    <div class="page-wrap">
 
-    <!-- STEPS -->
-    <div class="steps-row fade-in delay-1">
-      <div class="step-item">
-        <div class="step-badge active" id="step1">
-          <div class="step-num">1</div>
-          <div class="step-label"><span class="ar">رفع الملفات</span><span class="en">Upload Files</span></div>
-        </div>
-      </div>
-      <div class="step-arrow"></div>
-      <div class="step-item">
-        <div class="step-badge" id="step2">
-          <div class="step-num">2</div>
-          <div class="step-label"><span class="ar">التوليد</span><span class="en">Generate</span></div>
-        </div>
-      </div>
-      <div class="step-arrow"></div>
-      <div class="step-item">
-        <div class="step-badge" id="step3">
-          <div class="step-num">3</div>
-          <div class="step-label"><span class="ar">المعاينة</span><span class="en">Preview</span></div>
-        </div>
-      </div>
-      <div class="step-arrow"></div>
-      <div class="step-item">
-        <div class="step-badge" id="step4">
-          <div class="step-num">4</div>
-          <div class="step-label"><span class="ar">التحميل</span><span class="en">Download</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- HINTS -->
-    <div class="hints-row fade-in delay-2">
-      <div class="hint-card">
-        <div class="hint-icon hi-cyan"><i class="fa-solid fa-file-pdf"></i></div>
-        <div class="hint-body">
-          <h4><span class="ar">ارفع CV بصيغة PDF</span><span class="en">Upload PDF CV</span></h4>
-          <p><span class="ar">الذكاء الاصطناعي يقرأ بياناتك ويستخرج كل المعلومات تلقائياً</span><span class="en">AI
-              reads your data and extracts all info automatically</span></p>
-        </div>
-      </div>
-      <div class="hint-card">
-        <div class="hint-icon hi-purple"><i class="fa-solid fa-code"></i></div>
-        <div class="hint-body">
-          <h4><span class="ar">رفع تصميم جاهز</span><span class="en">Upload Custom Design</span></h4>
-
-          <p>
-            <span class="ar">
-              قريبًا يمكنك رفع تصميم HTML/CSS خاص بك وسيقوم الذكاء الاصطناعي بتحويل بيانات الـ CV إليه تلقائيًا
-            </span>
-
-            <span class="en">
-              Coming soon: Upload your own HTML/CSS design and let AI automatically fill it with your CV data
-            </span>
-          </p>
-        </div>
-      </div>
-      <div class="hint-card">
-        <div class="hint-icon hi-green"><i class="fa-solid fa-download"></i></div>
-        <div class="hint-body">
-          <h4><span class="ar">نتيجة جاهزة فوراً</span><span class="en">Ready to Download</span></h4>
-          <p><span class="ar">احصل على ملف HTML كامل جاهز للنشر مباشرة على الإنترنت</span><span class="en">Get a
-              complete HTML file ready to publish online</span></p>
-        </div>
-      </div>
-    </div>
-
-    <!-- UPLOAD AREA -->
-    <input type="file" id="cvFile" accept=".pdf" onchange="handleFile('cv', this)">
-    <input type="file" id="portfolioFile" accept=".html" onchange="handleFile('portfolio', this)">
-
-    <div class="upload-grid fade-in delay-2">
-      <label class="upload-zone required-badge" id="cvZone" for="cvFile">
-        <div class="upload-icon"><i class="fa-solid fa-file-arrow-up" id="cvIcon"></i></div>
-        <div class="upload-title"><span class="ar">رفع ملف CV</span><span class="en">Upload CV File</span></div>
-        <div class="upload-sub"><span class="ar">اسحب الملف هنا أو اضغط للاختيار<br>صيغة PDF فقط</span><span
-            class="en">Drag & drop or click to browse<br>PDF format only</span></div>
-        <div class="upload-filename" id="cvName"></div>
-      </label>
-
-      <!-- <label class="upload-zone optional-badge" id="portfolioZone" for="portfolioFile"> -->
-      <div class="upload-zone disabled-zone" id="portfolioZone">
-        <div class="upload-icon"><i class="fa-solid fa-palette" id="portfolioIcon"></i></div>
-        <div class="upload-title"><span class="ar">رفع قالب HTML</span><span class="en">Upload HTML Template</span>
-        </div>
-        <div class="upload-sub"><span class="ar">قالب مخصص اختياري<br>سيتم الحفاظ على التصميم بالكامل</span><span
-            class="en">Optional custom template<br>Full design will be preserved</span></div>
-        <div class="upload-filename" id="portfolioName"></div>
-      </div>
-      <!-- </label> -->
-    </div>
-
-    <!-- STATUS BAR -->
-    <div class="status-bar" id="statusBar">
-      <div class="status-pulse"></div>
-      <span id="statusText"></span>
-    </div>
-
-    <!-- GENERATE BUTTON -->
-    <button class="generate-btn fade-in delay-3" onclick="generatePortfolio()" id="generateBtn">
-      <div class="spinner" id="btnSpinner"></div>
-      <i class="fa-solid fa-wand-magic-sparkles" id="btnIcon"></i>
-      <span class="btn-text-ar ar"><span class="ar">توليد البورتفوليو بالذكاء الاصطناعي</span></span>
-      <span class="btn-text-en en">Generate Portfolio with AI</span>
-    </button>
-
-    <!-- OUTPUT -->
-    <div class="output-section fade-in delay-4" id="outputSection" style="display:none">
-      <div class="section-label"><span class="ar">النتائج</span><span class="en">Results</span></div>
-
-      <div class="output-grid">
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">
-              <div class="panel-dot cyan"></div>
-              <span><span class="ar">تعليمات الذكاء الاصطناعي</span><span class="en">AI Instructions</span></span>
-            </div>
-            <button class="panel-copy" onclick="copyText('instructionsBox')">
-              <i class="fa-regular fa-copy"></i>
-              <span class="ar">نسخ</span><span class="en">Copy</span>
-            </button>
-          </div>
-          <div class="panel-body">
-            <div class="empty-state" id="instrEmpty">
-              <i class="fa-regular fa-clock"></i>
-              <p><span class="ar">في انتظار التوليد</span><span class="en">Waiting for generation</span></p>
-            </div>
-            <pre id="instructionsBox" style="display:none"></pre>
+      <!-- TOPBAR -->
+      <header class="topbar fade-in">
+        <div class="brand">
+          <div class="brand-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div class="brand-text">
+            <h1>AI Portfolio Builder</h1>
+            <p><span class="ar">أنشئ بورتفوليو احترافي من CV في ثوانٍ</span><span class="en">Turn your CV into a
+                stunning
+                portfolio in seconds</span></p>
           </div>
         </div>
+        <div class="topbar-actions">
+          <button class="lang-switcher" onclick="toggleLang()" id="langBtn">
+            <i class="fa-solid fa-language"></i>
+            <span class="ar">English</span><span class="en">عربي</span>
+          </button>
+          <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+          </button>
+        </div>
+      </header>
 
-        <div class="panel">
-          <div class="panel-header">
-            <div class="panel-title">
-              <div class="panel-dot green"></div>
-              <span><span class="ar">الكود المولَّد</span><span class="en">Generated HTML</span></span>
-            </div>
-            <button class="panel-copy" onclick="copyText('htmlBox')">
-              <i class="fa-regular fa-copy"></i>
-              <span class="ar">نسخ</span><span class="en">Copy</span>
-            </button>
+      <!-- STEPS -->
+      <div class="steps-row fade-in delay-1">
+        <div class="step-item">
+          <div class="step-badge active" id="step1">
+            <div class="step-num">1</div>
+            <div class="step-label"><span class="ar">رفع الملفات</span><span class="en">Upload Files</span></div>
           </div>
-          <div class="panel-body">
-            <div class="empty-state" id="htmlEmpty">
-              <i class="fa-regular fa-clock"></i>
-              <p><span class="ar">في انتظار التوليد</span><span class="en">Waiting for generation</span></p>
-            </div>
-            <pre id="htmlBox" style="display:none"></pre>
+        </div>
+        <div class="step-arrow"></div>
+        <div class="step-item">
+          <div class="step-badge" id="step2">
+            <div class="step-num">2</div>
+            <div class="step-label"><span class="ar">التوليد</span><span class="en">Generate</span></div>
+          </div>
+        </div>
+        <div class="step-arrow"></div>
+        <div class="step-item">
+          <div class="step-badge" id="step3">
+            <div class="step-num">3</div>
+            <div class="step-label"><span class="ar">المعاينة</span><span class="en">Preview</span></div>
+          </div>
+        </div>
+        <div class="step-arrow"></div>
+        <div class="step-item">
+          <div class="step-badge" id="step4">
+            <div class="step-num">4</div>
+            <div class="step-label"><span class="ar">التحميل</span><span class="en">Download</span></div>
           </div>
         </div>
       </div>
 
-      <!-- PREVIEW -->
-      <div class="preview-panel">
-        <div class="preview-header">
-          <div class="preview-title">
-            <div class="browser-dots">
-              <div class="browser-dot bd-r"></div>
-              <div class="browser-dot bd-y"></div>
-              <div class="browser-dot bd-g"></div>
-            </div>
-            <span style="margin-right:10px"><span class="ar">معاينة البورتفوليو</span><span class="en">Portfolio
-                Preview</span></span>
+      <!-- HINTS -->
+      <div class="hints-row fade-in delay-2">
+        <div class="hint-card">
+          <div class="hint-icon hi-cyan"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="hint-body">
+            <h4><span class="ar">ارفع CV بصيغة PDF</span><span class="en">Upload PDF CV</span></h4>
+            <p><span class="ar">الذكاء الاصطناعي يقرأ بياناتك ويستخرج كل المعلومات تلقائياً</span><span class="en">AI
+                reads your data and extracts all info automatically</span></p>
           </div>
         </div>
-        <div class="preview-placeholder" id="previewPlaceholder">
-          <i class="fa-regular fa-eye"></i>
-          <p><span class="ar">ستظهر المعاينة هنا بعد التوليد</span><span class="en">Preview will appear here after
-              generation</span></p>
+        <div class="hint-card">
+          <div class="hint-icon hi-purple"><i class="fa-solid fa-code"></i></div>
+          <div class="hint-body">
+            <h4><span class="ar">رفع تصميم جاهز</span><span class="en">Upload Custom Design</span></h4>
+
+            <p>
+              <span class="ar">
+                قريبًا يمكنك رفع تصميم HTML/CSS خاص بك وسيقوم الذكاء الاصطناعي بتحويل بيانات الـ CV إليه تلقائيًا
+              </span>
+
+              <span class="en">
+                Coming soon: Upload your own HTML/CSS design and let AI automatically fill it with your CV data
+              </span>
+            </p>
+          </div>
         </div>
-        <iframe class="preview-frame" id="previewFrame" style="display:none"></iframe>
+        <div class="hint-card">
+          <div class="hint-icon hi-green"><i class="fa-solid fa-download"></i></div>
+          <div class="hint-body">
+            <h4><span class="ar">نتيجة جاهزة فوراً</span><span class="en">Ready to Download</span></h4>
+            <p><span class="ar">احصل على ملف HTML كامل جاهز للنشر مباشرة على الإنترنت</span><span class="en">Get a
+                complete HTML file ready to publish online</span></p>
+          </div>
+        </div>
       </div>
 
-      <button class="download-btn" onclick="downloadHTML()" id="downloadBtn">
-        <i class="fa-solid fa-download"></i>
-        <span class="ar">تحميل ملف البورتفوليو</span><span class="en">Download Portfolio File</span>
+      <!-- UPLOAD AREA -->
+      <input type="file" id="cvFile" accept=".pdf" onchange="handleFile('cv', this)">
+      <input type="file" id="portfolioFile" accept=".html" onchange="handleFile('portfolio', this)">
+
+      <div class="upload-grid fade-in delay-2">
+        <label class="upload-zone required-badge" id="cvZone" for="cvFile">
+          <div class="upload-icon"><i class="fa-solid fa-file-arrow-up" id="cvIcon"></i></div>
+          <div class="upload-title"><span class="ar">رفع ملف CV</span><span class="en">Upload CV File</span></div>
+          <div class="upload-sub"><span class="ar">اسحب الملف هنا أو اضغط للاختيار<br>صيغة PDF فقط</span><span
+              class="en">Drag & drop or click to browse<br>PDF format only</span></div>
+          <div class="upload-filename" id="cvName"></div>
+        </label>
+
+        <!-- <label class="upload-zone optional-badge" id="portfolioZone" for="portfolioFile"> -->
+        <div class="upload-zone disabled-zone" id="portfolioZone">
+          <div class="upload-icon"><i class="fa-solid fa-palette" id="portfolioIcon"></i></div>
+          <div class="upload-title"><span class="ar">رفع قالب HTML</span><span class="en">Upload HTML Template</span>
+          </div>
+          <div class="upload-sub"><span class="ar">قالب مخصص اختياري<br>سيتم الحفاظ على التصميم بالكامل</span><span
+              class="en">Optional custom template<br>Full design will be preserved</span></div>
+          <div class="upload-filename" id="portfolioName"></div>
+        </div>
+        <!-- </label> -->
+      </div>
+
+      <!-- STATUS BAR -->
+      <div class="status-bar" id="statusBar">
+        <div class="status-pulse"></div>
+        <span id="statusText"></span>
+      </div>
+
+      <!-- GENERATE BUTTON -->
+      <button class="generate-btn fade-in delay-3" onclick="generatePortfolio()" id="generateBtn">
+        <div class="spinner" id="btnSpinner"></div>
+        <i class="fa-solid fa-wand-magic-sparkles" id="btnIcon"></i>
+        <span class="btn-text-ar ar"><span class="ar">توليد البورتفوليو بالذكاء الاصطناعي</span></span>
+        <span class="btn-text-en en">Generate Portfolio with AI</span>
       </button>
+
+      <!-- OUTPUT -->
+      <div class="output-section fade-in delay-4" id="outputSection" style="display:none">
+        <div class="section-label"><span class="ar">النتائج</span><span class="en">Results</span></div>
+
+        <div class="output-grid">
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <div class="panel-dot cyan"></div>
+                <span><span class="ar">تعليمات الذكاء الاصطناعي</span><span class="en">AI Instructions</span></span>
+              </div>
+              <button class="panel-copy" onclick="copyText('instructionsBox')">
+                <i class="fa-regular fa-copy"></i>
+                <span class="ar">نسخ</span><span class="en">Copy</span>
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="empty-state" id="instrEmpty">
+                <i class="fa-regular fa-clock"></i>
+                <p><span class="ar">في انتظار التوليد</span><span class="en">Waiting for generation</span></p>
+              </div>
+              <pre id="instructionsBox" style="display:none"></pre>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <div class="panel-dot green"></div>
+                <span><span class="ar">الكود المولَّد</span><span class="en">Generated HTML</span></span>
+              </div>
+              <button class="panel-copy" onclick="copyText('htmlBox')">
+                <i class="fa-regular fa-copy"></i>
+                <span class="ar">نسخ</span><span class="en">Copy</span>
+              </button>
+            </div>
+            <div class="panel-body">
+              <div class="empty-state" id="htmlEmpty">
+                <i class="fa-regular fa-clock"></i>
+                <p><span class="ar">في انتظار التوليد</span><span class="en">Waiting for generation</span></p>
+              </div>
+              <pre id="htmlBox" style="display:none"></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div class="preview-panel">
+          <div class="preview-header">
+            <div class="preview-title">
+              <div class="browser-dots">
+                <div class="browser-dot bd-r"></div>
+                <div class="browser-dot bd-y"></div>
+                <div class="browser-dot bd-g"></div>
+              </div>
+              <span style="margin-right:10px"><span class="ar">معاينة البورتفوليو</span><span class="en">Portfolio
+                  Preview</span></span>
+            </div>
+          </div>
+          <div class="preview-placeholder" id="previewPlaceholder">
+            <i class="fa-regular fa-eye"></i>
+            <p><span class="ar">ستظهر المعاينة هنا بعد التوليد</span><span class="en">Preview will appear here after
+                generation</span></p>
+          </div>
+          <iframe class="preview-frame" id="previewFrame" style="display:none"></iframe>
+        </div>
+
+        <button class="download-btn" onclick="downloadHTML()" id="downloadBtn">
+          <i class="fa-solid fa-download"></i>
+          <span class="ar">تحميل ملف البورتفوليو</span><span class="en">Download Portfolio File</span>
+        </button>
+      </div>
+
     </div>
 
-  </div>
-
+  </main>
+  <footer>
+    <p>Designed & built by <a href="https://www.linkedin.com/in/hossam-mohamed-abd/"><span>Hossam Mohamed</span></a></p>
+    <p>&nbsp;·&nbsp; © 2025</p>
+  </footer>
   <!-- LINKEDIN MODAL -->
   <div id="linkedinModal"
     style="display:none; position:fixed; inset:0; background:#00000088; z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(6px);">
@@ -1251,11 +1259,6 @@
       </p>
     </div>
   </div>
-  
-  <footer>
-    <p>Designed & built by <a href="https://www.linkedin.com/in/hossam-mohamed-abd/"><span>Hossam Mohamed</span></a></p>
-    <p>&nbsp;·&nbsp; © 2025</p>
-  </footer>
   <script>
     let generatedHTML = "";
     let currentTheme = "dark";
