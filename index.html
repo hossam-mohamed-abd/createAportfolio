@@ -367,10 +367,7 @@
     .upload-zone.has-file .upload-filename { display: block; }
 
     input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
+      display: none;
     }
 
     /* ===== GENERATE BUTTON ===== */
@@ -842,22 +839,23 @@
   </div>
 
   <!-- UPLOAD AREA -->
+  <input type="file" id="cvFile" accept=".pdf" onchange="handleFile('cv', this)">
+  <input type="file" id="portfolioFile" accept=".html" onchange="handleFile('portfolio', this)">
+
   <div class="upload-grid fade-in delay-2">
-    <div class="upload-zone required-badge" id="cvZone" onclick="document.getElementById('cvFile').click()">
-      <input type="file" id="cvFile" accept=".pdf" onchange="handleFile('cv', this)">
+    <label class="upload-zone required-badge" id="cvZone" for="cvFile">
       <div class="upload-icon"><i class="fa-solid fa-file-arrow-up" id="cvIcon"></i></div>
       <div class="upload-title"><span class="ar">رفع ملف CV</span><span class="en">Upload CV File</span></div>
       <div class="upload-sub"><span class="ar">اسحب الملف هنا أو اضغط للاختيار<br>صيغة PDF فقط</span><span class="en">Drag & drop or click to browse<br>PDF format only</span></div>
       <div class="upload-filename" id="cvName"></div>
-    </div>
+    </label>
 
-    <div class="upload-zone optional-badge" id="portfolioZone" onclick="document.getElementById('portfolioFile').click()">
-      <input type="file" id="portfolioFile" accept=".html" onchange="handleFile('portfolio', this)">
+    <label class="upload-zone optional-badge" id="portfolioZone" for="portfolioFile">
       <div class="upload-icon"><i class="fa-solid fa-palette" id="portfolioIcon"></i></div>
       <div class="upload-title"><span class="ar">رفع قالب HTML</span><span class="en">Upload HTML Template</span></div>
       <div class="upload-sub"><span class="ar">قالب مخصص اختياري<br>سيتم الحفاظ على التصميم بالكامل</span><span class="en">Optional custom template<br>Full design will be preserved</span></div>
       <div class="upload-filename" id="portfolioName"></div>
-    </div>
+    </label>
   </div>
 
   <!-- STATUS BAR -->
