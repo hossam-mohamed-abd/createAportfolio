@@ -1301,7 +1301,17 @@
           setStep(4);
           setStatus(currentLang === "ar" ? "تم توليد البورتفوليو بنجاح" : "Portfolio generated successfully", "success");
         } else {
-          setStatus(currentLang === "ar" ? "حدث خطأ في الاستجابة" : "Unexpected response error", "error");
+          setStatus(console.log(data));
+
+          setStatus(
+
+            currentLang === "ar"
+              ? "الـ API رجع Response غير متوقع"
+              : "Unexpected API response",
+
+            "error"
+
+          );
         }
 
       } catch (err) {
