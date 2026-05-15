@@ -1224,6 +1224,36 @@
     <p>Designed & built by <a href="https://www.linkedin.com/in/hossam-mohamed-abd/"><span>Hossam Mohamed</span></a></p>
     <p>&nbsp;·&nbsp; © 2025</p>
   </footer>
+  <!-- LINKEDIN MODAL -->
+  <div id="linkedinModal"
+    style="display:none; position:fixed; inset:0; background:#00000088; z-index:9999; align-items:center; justify-content:center; backdrop-filter:blur(6px);">
+    <div
+      style="background:var(--surface); border:1px solid var(--border); border-radius:20px; padding:40px 36px; max-width:420px; width:90%; text-align:center; position:relative; box-shadow:0 24px 80px #00000066;">
+      <button onclick="closeLinkedInModal()"
+        style="position:absolute; top:14px; left:14px; background:transparent; border:none; color:var(--text-muted); font-size:18px; cursor:pointer;"><i
+          class="fa-solid fa-xmark"></i></button>
+      <div
+        style="width:64px; height:64px; background:linear-gradient(135deg,var(--accent2),var(--accent)); border-radius:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; font-size:26px; color:#fff; box-shadow:var(--glow);">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+      </div>
+      <h2 style="font-size:20px; font-weight:800; margin-bottom:10px;">
+        <span class="ar">بورتفوليوك جاهز</span><span class="en">Your Portfolio is Ready</span>
+      </h2>
+      <p style="font-size:13px; color:var(--text-muted); line-height:1.8; margin-bottom:28px;">
+        <span class="ar">إذا أعجبك الأداة أو أثارت اهتمامك، يسعدني أن أتواصل معك على لينكد إن</span>
+        <span class="en">If you found this tool useful or interesting, I'd love to connect with you on LinkedIn</span>
+      </p>
+      <a href="https://www.linkedin.com/in/hossam-mohamed-abd/" target="_blank" rel="noopener"
+        style="display:inline-flex; align-items:center; gap:10px; background:linear-gradient(135deg,var(--accent2),var(--accent)); color:#fff; padding:14px 28px; border-radius:50px; font-size:15px; font-weight:700; text-decoration:none; transition:all 0.25s; box-shadow:var(--glow);">
+        <i class="fa-brands fa-linkedin"></i>
+        <span class="ar">تواصل على لينكد إن</span><span class="en">Connect on LinkedIn</span>
+      </a>
+      <p style="margin-top:16px; font-size:11px; color:var(--text-dim);">
+        <span class="ar">لا شكر على واجب، وتحميل البورتفوليو موجود أسفل المعاينة</span>
+        <span class="en">No worries, your download button is below the preview</span>
+      </p>
+    </div>
+  </div>
   <script>
     let generatedHTML = "";
     let currentTheme = "dark";
@@ -1245,17 +1275,151 @@
     }
 
     function handleFile(type, input) {
-      const file = input.files[0];
+
+      const file =
+        input.files[0];
+
       if (!file) return;
+
+      /*
+        max size
+        2MB
+      */
+
+      const maxSize =
+        2 * 1024 * 1024;
+
+      /*
+        CV validation
+      */
+
       if (type === "cv") {
-        document.getElementById("cvZone").classList.add("has-file");
-        document.getElementById("cvName").textContent = file.name;
-        document.getElementById("cvIcon").className = "fa-solid fa-circle-check";
-      } else {
-        document.getElementById("portfolioZone").classList.add("has-file");
-        document.getElementById("portfolioName").textContent = file.name;
-        document.getElementById("portfolioIcon").className = "fa-solid fa-circle-check";
+
+        /*
+          pdf only
+        */
+
+        if (
+
+          file.type !==
+          "application/pdf"
+
+        ) {
+
+          setStatus(
+
+            currentLang === "ar"
+              ? "يسمح فقط بملفات PDF"
+              : "Only PDF files are allowed",
+
+            "error"
+
+          );
+
+          input.value = "";
+
+          return;
+
+        }
+
+        /*
+          size validation
+        */
+
+        if (file.size > maxSize) {
+
+          setStatus(
+
+            currentLang === "ar"
+              ? "حجم ملف الـ CV يجب ألا يتجاوز 2MB"
+              : "CV file must be under 2MB",
+
+            "error"
+
+          );
+
+          input.value = "";
+
+          return;
+
+        }
+
+        document
+          .getElementById("cvZone")
+          .classList.add("has-file");
+
+        document
+          .getElementById("cvName")
+          .textContent = file.name;
+
+        document
+          .getElementById("cvIcon")
+          .className =
+          "fa-solid fa-circle-check";
+
       }
+
+      /*
+        HTML template validation
+      */
+
+      else {
+
+        if (
+
+          !file.name.endsWith(".html")
+
+        ) {
+
+          setStatus(
+
+            currentLang === "ar"
+              ? "يسمح فقط بملفات HTML"
+              : "Only HTML files are allowed",
+
+            "error"
+
+          );
+
+          input.value = "";
+
+          return;
+
+        }
+
+        if (file.size > maxSize) {
+
+          setStatus(
+
+            currentLang === "ar"
+              ? "حجم ملف الـ HTML يجب ألا يتجاوز 2MB"
+              : "HTML file must be under 2MB",
+
+            "error"
+
+          );
+
+          input.value = "";
+
+          return;
+
+        }
+
+        document
+          .getElementById("portfolioZone")
+          .classList.add("has-file");
+
+        document
+          .getElementById("portfolioName")
+          .textContent = file.name;
+
+        document
+          .getElementById("portfolioIcon")
+          .className =
+          "fa-solid fa-circle-check";
+
+      }
+
     }
 
     function setStatus(msg, type) {
@@ -1597,6 +1761,7 @@ ${htmlTemplate}
             finalHTML;
           setStep(4);
           setStatus(currentLang === "ar" ? "تم توليد البورتفوليو بنجاح" : "Portfolio generated successfully", "success");
+          setTimeout(() => showLinkedInModal(), 800);
         } else {
           setStatus(console.log(data));
 
@@ -1643,6 +1808,20 @@ ${htmlTemplate}
         setStatus(currentLang === "ar" ? "تم النسخ إلى الحافظة" : "Copied to clipboard", "success");
       });
     }
+
+
+    function showLinkedInModal() {
+      const modal = document.getElementById("linkedinModal");
+      modal.style.display = "flex";
+    }
+
+    function closeLinkedInModal() {
+      document.getElementById("linkedinModal").style.display = "none";
+    }
+
+    document.getElementById("linkedinModal").addEventListener("click", function (e) {
+      if (e.target === this) closeLinkedInModal();
+    });
   </script>
 </body>
 
