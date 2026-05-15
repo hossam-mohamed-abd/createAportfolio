@@ -1636,19 +1636,27 @@ ${htmlTemplate}
 
           }
 
+          console.log(errorData);
+
           /*
             Daily limit
           */
 
           if (
+
             response.status === 429 ||
-            errorData?.message === "Daily limit reached"
+
+            errorData?.message ===
+            "Daily limit reached"
+
           ) {
 
             setStatus(
 
               currentLang === "ar"
+
                 ? "لقد استخدمت الحد اليومي المسموح. يمكنك المحاولة غدًا."
+
                 : "You reached your daily limit. Try again tomorrow.",
 
               "error"
@@ -1664,14 +1672,80 @@ ${htmlTemplate}
           }
 
           /*
-            Other errors
+            Gemini overloaded
+          */
+
+          if (
+
+            response.status === 503 ||
+
+            errorData?.error?.status ===
+            "UNAVAILABLE"
+
+          ) {
+
+            setStatus(
+
+              currentLang === "ar"
+
+                ? "يوجد ضغط كبير على الخادم حاليًا. حاول مرة أخرى بعد قليل."
+
+                : "Servers are currently overloaded. Please try again shortly.",
+
+              "error"
+
+            );
+
+            btn.disabled = false;
+            btn.classList.remove("loading");
+            icon.style.display = "";
+
+            return;
+
+          }
+
+          /*
+            API key issue
+          */
+
+          if (
+
+            errorData?.error?.message
+              ?.includes("API key")
+
+          ) {
+
+            setStatus(
+
+              currentLang === "ar"
+
+                ? "يوجد خطأ في إعدادات الخادم."
+
+                : "Server configuration error.",
+
+              "error"
+
+            );
+
+            btn.disabled = false;
+            btn.classList.remove("loading");
+            icon.style.display = "";
+
+            return;
+
+          }
+
+          /*
+            generic error
           */
 
           setStatus(
 
             currentLang === "ar"
-              ? "حدث خطأ في السيرفر"
-              : "Server error",
+
+              ? "حدث خطأ غير متوقع أثناء التوليد."
+
+              : "Unexpected generation error.",
 
             "error"
 
