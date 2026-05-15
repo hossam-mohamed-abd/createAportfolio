@@ -1,532 +1,1109 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>
-    AI Portfolio Builder
-  </title>
-
+  <title>AI Portfolio Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --bg: #080c14;
+      --bg2: #0d1421;
+      --surface: #111827;
+      --surface2: #1a2332;
+      --border: #1e2d42;
+      --border-glow: #00d4ff33;
+      --text: #e8f0fe;
+      --text-muted: #6b7f9a;
+      --text-dim: #3a4a5c;
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --accent3: #10b981;
+      --accent-warm: #f59e0b;
+      --danger: #ef4444;
+      --glow: 0 0 40px #00d4ff22;
+      --glow-strong: 0 0 60px #00d4ff44;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --shadow: 0 8px 32px #00000044;
     }
+
+    [data-theme="light"] {
+      --bg: #f0f4ff;
+      --bg2: #e8eef8;
+      --surface: #ffffff;
+      --surface2: #f5f8ff;
+      --border: #d0daf0;
+      --border-glow: #6366f133;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      --accent: #4f46e5;
+      --accent2: #7c3aed;
+      --accent3: #059669;
+      --accent-warm: #d97706;
+      --danger: #dc2626;
+      --glow: 0 0 40px #4f46e522;
+      --glow-strong: 0 0 60px #4f46e544;
+      --shadow: 0 8px 32px #1e3a5f14;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background: #0f172a;
-      color: white;
-      font-family: Arial;
-      padding: 30px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Tajawal', sans-serif;
+      min-height: 100vh;
+      transition: background 0.35s, color 0.35s;
+      overflow-x: hidden;
     }
 
-    .container {
-      max-width: 1400px;
-      margin: auto;
+    body::before {
+      content: '';
+      position: fixed;
+      top: -30%;
+      left: -10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(ellipse, var(--accent2)18 0%, transparent 70%);
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -20%;
+      right: -10%;
+      width: 50%;
+      height: 50%;
+      background: radial-gradient(ellipse, var(--accent)18 0%, transparent 70%);
+      opacity: 0.05;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    h1 {
+    .page-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+    }
+
+    /* ===== HEADER ===== */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 52px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+      flex-shrink: 0;
+      box-shadow: var(--glow);
+    }
+
+    .brand-text h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .brand-text p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .lang-switcher,
+    .theme-toggle {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 9px 16px;
+      border-radius: 50px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .lang-switcher:hover,
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .theme-toggle {
+      width: 40px;
+      padding: 9px;
+      justify-content: center;
+    }
+
+    /* ===== STEP FLOW ===== */
+    .steps-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 40px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+    }
+
+    .step-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 50px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    .step-badge.active {
+      background: linear-gradient(135deg, var(--accent2)22, var(--accent)18);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .step-badge.done {
+      border-color: var(--accent3);
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .step-badge.active .step-num {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .step-badge.done .step-num {
+      background: var(--accent3);
+      color: #fff;
+    }
+
+    .step-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .step-badge.active .step-label { color: var(--text); }
+
+    .step-arrow {
+      width: 40px;
+      height: 1px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ===== UPLOAD SECTION ===== */
+    .upload-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
       margin-bottom: 20px;
-      font-size: 32px;
     }
 
-    h2 {
-      margin-bottom: 16px;
-      color: #06b6d4;
+    .upload-zone {
+      background: var(--surface);
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 36px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
     }
 
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: bold;
+    .upload-zone::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent)08, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 20px;
-      background: #0f172a;
-      border: 1px solid #334155;
-      color: white;
-      border-radius: 10px;
+    .upload-zone:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: var(--glow);
     }
 
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: #06b6d4;
-      color: black;
+    .upload-zone:hover::before { opacity: 1; }
+
+    .upload-zone.has-file {
+      border-style: solid;
+      border-color: var(--accent3);
+      background: linear-gradient(135deg, var(--accent3)08, var(--surface));
+    }
+
+    .upload-zone.required-badge::after {
+      content: 'مطلوب';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--danger);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 50px;
+      letter-spacing: 0.3px;
+    }
+
+    [data-theme="light"] .upload-zone.required-badge::after {
+      content: 'Required';
+    }
+
+    .upload-zone.optional-badge::after {
+      content: 'اختياري';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--surface2);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 50px;
+    }
+
+    [data-theme="light"] .upload-zone.optional-badge::after {
+      content: 'Optional';
+    }
+
+    .upload-icon {
+      font-size: 34px;
+      margin-bottom: 14px;
+      color: var(--accent);
+      transition: transform 0.3s;
+    }
+
+    .upload-zone.has-file .upload-icon { color: var(--accent3); }
+    .upload-zone:hover .upload-icon { transform: translateY(-4px); }
+
+    .upload-title {
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .upload-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .upload-filename {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--accent3);
+      font-weight: 600;
+      display: none;
+    }
+
+    .upload-zone.has-file .upload-filename { display: block; }
+
+    input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
       cursor: pointer;
     }
 
-    button:hover {
-      opacity: .9;
-    }
-
-    iframe {
+    /* ===== GENERATE BUTTON ===== */
+    .generate-btn {
       width: 100%;
-      height: 800px;
+      padding: 18px 32px;
       border: none;
-      border-radius: 12px;
-      background: white;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+      letter-spacing: 0.3px;
     }
 
-    pre {
-      white-space: pre-wrap;
-      overflow: auto;
-      background: #020617;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 20px;
-      max-height: 700px;
+    .generate-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #ffffff18, transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
     }
 
-    .download-btn {
-      margin-top: 15px;
-      background: #22c55e;
+    .generate-btn:hover::before { opacity: 1; }
+    .generate-btn:hover { transform: translateY(-2px); box-shadow: var(--glow-strong); }
+    .generate-btn:active { transform: translateY(0); }
+    .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid #ffffff44;
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
     }
 
-    .grid {
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .generate-btn.loading .spinner { display: block; }
+    .generate-btn.loading .btn-text-ar,
+    .generate-btn.loading .btn-text-en { opacity: 0.7; }
+
+    /* ===== OUTPUT GRID ===== */
+    .output-section {
+      margin-top: 36px;
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .output-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
+      gap: 20px;
+      margin-bottom: 20px;
     }
 
-    @media(max-width:900px) {
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.3s;
     }
+
+    .panel:hover { border-color: var(--border-glow); }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .panel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-dim);
+    }
+
+    .panel-dot.cyan { background: var(--accent); }
+    .panel-dot.green { background: var(--accent3); }
+
+    .panel-copy {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: 'Tajawal', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+      width: auto;
+      font-weight: 600;
+    }
+
+    .panel-copy:hover { border-color: var(--accent); color: var(--accent); }
+
+    .panel-body {
+      padding: 0;
+      height: 340px;
+      overflow: auto;
+    }
+
+    .panel-body pre {
+      padding: 18px;
+      font-family: 'Tajawal', monospace;
+      font-size: 12.5px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 10px;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    .empty-state i { font-size: 28px; }
+
+    /* ===== PREVIEW ===== */
+    .preview-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .preview-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .browser-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .bd-r { background: #ff5f57; }
+    .bd-y { background: #ffbd2e; }
+    .bd-g { background: #28c840; }
+
+    .preview-frame {
+      width: 100%;
+      height: 680px;
+      border: none;
+      background: #fff;
+      display: block;
+    }
+
+    .preview-placeholder {
+      height: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      color: var(--text-dim);
+    }
+
+    .preview-placeholder i { font-size: 52px; opacity: 0.3; }
+    .preview-placeholder p { font-size: 14px; }
+
+    /* ===== DOWNLOAD ===== */
+    .download-btn {
+      width: 100%;
+      margin-top: 16px;
+      padding: 15px 24px;
+      background: transparent;
+      border: 1.5px solid var(--accent3);
+      color: var(--accent3);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.25s;
+    }
+
+    .download-btn:hover {
+      background: var(--accent3);
+      color: #fff;
+      box-shadow: 0 0 40px #10b98133;
+    }
+
+    .download-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    /* ===== STATUS BAR ===== */
+    .status-bar {
+      margin-top: 20px;
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      display: none;
+    }
+
+    .status-bar.visible { display: flex; }
+    .status-bar.success { border-color: var(--accent3); color: var(--accent3); }
+    .status-bar.error { border-color: var(--danger); color: var(--danger); }
+    .status-bar.loading { border-color: var(--accent); color: var(--accent); }
+
+    .status-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+      animation: pulse-dot 1.4s ease infinite;
+    }
+
+    .status-bar.success .status-pulse,
+    .status-bar.error .status-pulse { animation: none; }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* ===== HINT CARDS ===== */
+    .hints-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .hint-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .hint-card:hover { border-color: var(--accent2)66; }
+
+    .hint-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .hi-cyan { background: var(--accent)18; color: var(--accent); }
+    .hi-purple { background: var(--accent2)18; color: var(--accent2); }
+    .hi-green { background: var(--accent3)18; color: var(--accent3); }
+
+    .hint-body h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .hint-body p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .upload-grid, .output-grid { grid-template-columns: 1fr; }
+      .hints-row { grid-template-columns: 1fr; }
+      .steps-row { gap: 0; }
+      .step-arrow { width: 20px; }
+      .brand-text p { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .page-wrap { padding: 20px 14px 40px; }
+      .topbar { flex-wrap: wrap; gap: 12px; }
+      .topbar-actions { order: -1; margin-right: auto; }
+      .brand { width: 100%; }
+    }
+
+    /* ===== FADE IN ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+    .delay-3 { animation-delay: 0.24s; }
+    .delay-4 { animation-delay: 0.32s; }
+
+    /* ===== LANG HELPERS ===== */
+    .ar { display: inline; }
+    .en { display: none; }
+    [data-lang="en"] .ar { display: none; }
+    [data-lang="en"] .en { display: inline; }
+    [data-lang="en"] { font-family: 'Syne', 'Tajawal', sans-serif; direction: ltr; }
   </style>
-
 </head>
 
-<body>
+<body data-lang="ar">
+<div class="page-wrap">
 
-  <div class="container">
-
-    <div class="card">
-
-      <h1>
-        AI Portfolio Builder
-      </h1>
-
-      <label>
-        Upload CV PDF
-      </label>
-
-      <input type="file" id="cvFile" accept=".pdf" />
-
-      <label>
-        Upload Existing Portfolio HTML (Optional)
-      </label>
-
-      <input type="file" id="portfolioFile" accept=".html" />
-
-      <button onclick="generatePortfolio()">
-
-        Generate Portfolio
-
-      </button>
-
-    </div>
-
-    <div class="grid">
-
-      <div class="card">
-
-        <h2>
-          AI Instructions
-        </h2>
-
-        <pre id="instructionsBox">
-
-Waiting...
-
-        </pre>
-
+  <!-- TOPBAR -->
+  <header class="topbar fade-in">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+      <div class="brand-text">
+        <h1>AI Portfolio Builder</h1>
+        <p><span class="ar">أنشئ بورتفوليو احترافي من CV في ثوانٍ</span><span class="en">Turn your CV into a stunning portfolio in seconds</span></p>
       </div>
-
-      <div class="card">
-
-        <h2>
-          Generated HTML
-        </h2>
-
-        <pre id="htmlBox">
-
-Waiting...
-
-        </pre>
-
-      </div>
-
     </div>
-
-    <div class="card">
-
-      <h2>
-        Portfolio Preview
-      </h2>
-
-      <iframe id="previewFrame"></iframe>
-
-      <button class="download-btn" onclick="downloadHTML()">
-
-        Download Portfolio
-
+    <div class="topbar-actions">
+      <button class="lang-switcher" onclick="toggleLang()" id="langBtn">
+        <i class="fa-solid fa-language"></i>
+        <span class="ar">English</span><span class="en">عربي</span>
       </button>
-
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+        <i class="fa-solid fa-moon" id="themeIcon"></i>
+      </button>
     </div>
+  </header>
 
+  <!-- STEPS -->
+  <div class="steps-row fade-in delay-1">
+    <div class="step-item">
+      <div class="step-badge active" id="step1">
+        <div class="step-num">1</div>
+        <div class="step-label"><span class="ar">رفع الملفات</span><span class="en">Upload Files</span></div>
+      </div>
+    </div>
+    <div class="step-arrow"></div>
+    <div class="step-item">
+      <div class="step-badge" id="step2">
+        <div class="step-num">2</div>
+        <div class="step-label"><span class="ar">التوليد</span><span class="en">Generate</span></div>
+      </div>
+    </div>
+    <div class="step-arrow"></div>
+    <div class="step-item">
+      <div class="step-badge" id="step3">
+        <div class="step-num">3</div>
+        <div class="step-label"><span class="ar">المعاينة</span><span class="en">Preview</span></div>
+      </div>
+    </div>
+    <div class="step-arrow"></div>
+    <div class="step-item">
+      <div class="step-badge" id="step4">
+        <div class="step-num">4</div>
+        <div class="step-label"><span class="ar">التحميل</span><span class="en">Download</span></div>
+      </div>
+    </div>
   </div>
 
-  <script>
+  <!-- HINTS -->
+  <div class="hints-row fade-in delay-2">
+    <div class="hint-card">
+      <div class="hint-icon hi-cyan"><i class="fa-solid fa-file-pdf"></i></div>
+      <div class="hint-body">
+        <h4><span class="ar">ارفع CV بصيغة PDF</span><span class="en">Upload PDF CV</span></h4>
+        <p><span class="ar">الذكاء الاصطناعي يقرأ بياناتك ويستخرج كل المعلومات تلقائياً</span><span class="en">AI reads your data and extracts all info automatically</span></p>
+      </div>
+    </div>
+    <div class="hint-card">
+      <div class="hint-icon hi-purple"><i class="fa-solid fa-code"></i></div>
+      <div class="hint-body">
+        <h4><span class="ar">قالب HTML اختياري</span><span class="en">Optional HTML Template</span></h4>
+        <p><span class="ar">ارفع قالب مخصص أو سيستخدم القالب الافتراضي الاحترافي</span><span class="en">Use your template or the default professional one</span></p>
+      </div>
+    </div>
+    <div class="hint-card">
+      <div class="hint-icon hi-green"><i class="fa-solid fa-download"></i></div>
+      <div class="hint-body">
+        <h4><span class="ar">نتيجة جاهزة فوراً</span><span class="en">Ready to Download</span></h4>
+        <p><span class="ar">احصل على ملف HTML كامل جاهز للنشر مباشرة على الإنترنت</span><span class="en">Get a complete HTML file ready to publish online</span></p>
+      </div>
+    </div>
+  </div>
 
-    let generatedHTML = "";
+  <!-- UPLOAD AREA -->
+  <div class="upload-grid fade-in delay-2">
+    <div class="upload-zone required-badge" id="cvZone" onclick="document.getElementById('cvFile').click()">
+      <input type="file" id="cvFile" accept=".pdf" onchange="handleFile('cv', this)">
+      <div class="upload-icon"><i class="fa-solid fa-file-arrow-up" id="cvIcon"></i></div>
+      <div class="upload-title"><span class="ar">رفع ملف CV</span><span class="en">Upload CV File</span></div>
+      <div class="upload-sub"><span class="ar">اسحب الملف هنا أو اضغط للاختيار<br>صيغة PDF فقط</span><span class="en">Drag & drop or click to browse<br>PDF format only</span></div>
+      <div class="upload-filename" id="cvName"></div>
+    </div>
 
-    async function fileToBase64(file) {
+    <div class="upload-zone optional-badge" id="portfolioZone" onclick="document.getElementById('portfolioFile').click()">
+      <input type="file" id="portfolioFile" accept=".html" onchange="handleFile('portfolio', this)">
+      <div class="upload-icon"><i class="fa-solid fa-palette" id="portfolioIcon"></i></div>
+      <div class="upload-title"><span class="ar">رفع قالب HTML</span><span class="en">Upload HTML Template</span></div>
+      <div class="upload-sub"><span class="ar">قالب مخصص اختياري<br>سيتم الحفاظ على التصميم بالكامل</span><span class="en">Optional custom template<br>Full design will be preserved</span></div>
+      <div class="upload-filename" id="portfolioName"></div>
+    </div>
+  </div>
 
-      return new Promise((resolve, reject) => {
+  <!-- STATUS BAR -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-pulse"></div>
+    <span id="statusText"></span>
+  </div>
 
-        const reader = new FileReader();
+  <!-- GENERATE BUTTON -->
+  <button class="generate-btn fade-in delay-3" onclick="generatePortfolio()" id="generateBtn">
+    <div class="spinner" id="btnSpinner"></div>
+    <i class="fa-solid fa-wand-magic-sparkles" id="btnIcon"></i>
+    <span class="btn-text-ar ar"><span class="ar">توليد البورتفوليو بالذكاء الاصطناعي</span></span>
+    <span class="btn-text-en en">Generate Portfolio with AI</span>
+  </button>
 
-        reader.readAsDataURL(file);
+  <!-- OUTPUT -->
+  <div class="output-section fade-in delay-4" id="outputSection" style="display:none">
+    <div class="section-label"><span class="ar">النتائج</span><span class="en">Results</span></div>
 
-        reader.onload = () => {
+    <div class="output-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <div class="panel-dot cyan"></div>
+            <span><span class="ar">تعليمات الذكاء الاصطناعي</span><span class="en">AI Instructions</span></span>
+          </div>
+          <button class="panel-copy" onclick="copyText('instructionsBox')">
+            <i class="fa-regular fa-copy"></i>
+            <span class="ar">نسخ</span><span class="en">Copy</span>
+          </button>
+        </div>
+        <div class="panel-body">
+          <div class="empty-state" id="instrEmpty">
+            <i class="fa-regular fa-clock"></i>
+            <p><span class="ar">في انتظار التوليد</span><span class="en">Waiting for generation</span></p>
+          </div>
+          <pre id="instructionsBox" style="display:none"></pre>
+        </div>
+      </div>
 
-          const base64 =
-            reader.result.split(",")[1];
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <div class="panel-dot green"></div>
+            <span><span class="ar">الكود المولَّد</span><span class="en">Generated HTML</span></span>
+          </div>
+          <button class="panel-copy" onclick="copyText('htmlBox')">
+            <i class="fa-regular fa-copy"></i>
+            <span class="ar">نسخ</span><span class="en">Copy</span>
+          </button>
+        </div>
+        <div class="panel-body">
+          <div class="empty-state" id="htmlEmpty">
+            <i class="fa-regular fa-clock"></i>
+            <p><span class="ar">في انتظار التوليد</span><span class="en">Waiting for generation</span></p>
+          </div>
+          <pre id="htmlBox" style="display:none"></pre>
+        </div>
+      </div>
+    </div>
 
-          resolve(base64);
+    <!-- PREVIEW -->
+    <div class="preview-panel">
+      <div class="preview-header">
+        <div class="preview-title">
+          <div class="browser-dots">
+            <div class="browser-dot bd-r"></div>
+            <div class="browser-dot bd-y"></div>
+            <div class="browser-dot bd-g"></div>
+          </div>
+          <span style="margin-right:10px"><span class="ar">معاينة البورتفوليو</span><span class="en">Portfolio Preview</span></span>
+        </div>
+      </div>
+      <div class="preview-placeholder" id="previewPlaceholder">
+        <i class="fa-regular fa-eye"></i>
+        <p><span class="ar">ستظهر المعاينة هنا بعد التوليد</span><span class="en">Preview will appear here after generation</span></p>
+      </div>
+      <iframe class="preview-frame" id="previewFrame" style="display:none"></iframe>
+    </div>
 
-        };
+    <button class="download-btn" onclick="downloadHTML()" id="downloadBtn">
+      <i class="fa-solid fa-download"></i>
+      <span class="ar">تحميل ملف البورتفوليو</span><span class="en">Download Portfolio File</span>
+    </button>
+  </div>
 
-        reader.onerror =
-          error => reject(error);
+</div>
 
+<script>
+  let generatedHTML = "";
+  let currentTheme = "dark";
+  let currentLang = "ar";
+
+  function toggleTheme() {
+    currentTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", currentTheme);
+    const icon = document.getElementById("themeIcon");
+    icon.className = currentTheme === "dark" ? "fa-solid fa-moon" : "fa-solid fa-sun";
+  }
+
+  function toggleLang() {
+    currentLang = currentLang === "ar" ? "en" : "ar";
+    const html = document.documentElement;
+    html.setAttribute("data-lang", currentLang);
+    html.setAttribute("lang", currentLang);
+    html.setAttribute("dir", currentLang === "ar" ? "rtl" : "ltr");
+  }
+
+  function handleFile(type, input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (type === "cv") {
+      document.getElementById("cvZone").classList.add("has-file");
+      document.getElementById("cvName").textContent = file.name;
+      document.getElementById("cvIcon").className = "fa-solid fa-circle-check";
+    } else {
+      document.getElementById("portfolioZone").classList.add("has-file");
+      document.getElementById("portfolioName").textContent = file.name;
+      document.getElementById("portfolioIcon").className = "fa-solid fa-circle-check";
+    }
+  }
+
+  function setStatus(msg, type) {
+    const bar = document.getElementById("statusBar");
+    const text = document.getElementById("statusText");
+    bar.className = "status-bar visible " + (type || "");
+    text.textContent = msg;
+  }
+
+  function setStep(n) {
+    for (let i = 1; i <= 4; i++) {
+      const el = document.getElementById("step" + i);
+      el.className = "step-badge" + (i < n ? " done" : i === n ? " active" : "");
+      if (i < n) el.querySelector(".step-num").innerHTML = '<i class="fa-solid fa-check" style="font-size:11px"></i>';
+      else el.querySelector(".step-num").textContent = i;
+    }
+  }
+
+  async function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = e => reject(e);
+    });
+  }
+
+  async function generatePortfolio() {
+    const cvFile = document.getElementById("cvFile").files[0];
+    const portfolioFile = document.getElementById("portfolioFile").files[0];
+    const btn = document.getElementById("generateBtn");
+    const icon = document.getElementById("btnIcon");
+
+    if (!cvFile) {
+      setStatus(currentLang === "ar" ? "يرجى رفع ملف CV أولاً" : "Please upload your CV first", "error");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.classList.add("loading");
+    icon.style.display = "none";
+    setStep(2);
+    setStatus(currentLang === "ar" ? "جارٍ تحليل الـ CV وتوليد البورتفوليو..." : "Analyzing CV and generating portfolio...", "loading");
+    document.getElementById("outputSection").style.display = "block";
+
+    try {
+      const cvBase64 = await fileToBase64(cvFile);
+      let htmlTemplate = "";
+
+      if (portfolioFile) {
+        htmlTemplate = await portfolioFile.text();
+      } else {
+        const res = await fetch("templete2_prof.html");
+        htmlTemplate = await res.text();
+      }
+
+      const response = await fetch("https://api-create-potfolio.vercel.app/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cvBase64, htmlTemplate })
       });
 
+      const data = await response.json();
+
+      if (data.candidates && data.candidates.length > 0) {
+        let full = data.candidates[0].content.parts[0].text;
+        full = full.replace(/```html/g, "").replace(/```/g, "");
+
+        const instrPart = full.split("===HTML===")[0].replace("===INSTRUCTIONS===", "").trim();
+        const htmlPart = full.split("===HTML===")[1]?.trim() || "";
+
+        const instrBox = document.getElementById("instructionsBox");
+        const htmlBox = document.getElementById("htmlBox");
+
+        instrBox.textContent = instrPart;
+        htmlBox.textContent = htmlPart;
+        instrBox.style.display = "block";
+        htmlBox.style.display = "block";
+        document.getElementById("instrEmpty").style.display = "none";
+        document.getElementById("htmlEmpty").style.display = "none";
+
+        const frame = document.getElementById("previewFrame");
+        frame.style.display = "block";
+        frame.srcdoc = htmlPart;
+        document.getElementById("previewPlaceholder").style.display = "none";
+
+        generatedHTML = htmlPart;
+        setStep(4);
+        setStatus(currentLang === "ar" ? "تم توليد البورتفوليو بنجاح" : "Portfolio generated successfully", "success");
+      } else {
+        setStatus(currentLang === "ar" ? "حدث خطأ في الاستجابة" : "Unexpected response error", "error");
+      }
+
+    } catch (err) {
+      console.error(err);
+      setStatus(currentLang === "ar" ? "حدث خطأ أثناء التوليد. تحقق من الاتصال." : "Error during generation. Check your connection.", "error");
+      setStep(1);
+    } finally {
+      btn.disabled = false;
+      btn.classList.remove("loading");
+      icon.style.display = "";
     }
-
-    async function generatePortfolio() {
-
-      const cvFile =
-        document.getElementById("cvFile")
-          .files[0];
-
-      const portfolioFile =
-        document.getElementById("portfolioFile")
-          .files[0];
-
-      const instructionsBox =
-        document.getElementById("instructionsBox");
-
-      const htmlBox =
-        document.getElementById("htmlBox");
-
-      const previewFrame =
-        document.getElementById("previewFrame");
-
-      if (!cvFile) {
-
-        alert("Upload CV first");
-
-        return;
-
-      }
-
-      instructionsBox.textContent =
-        "Analyzing CV...";
-
-      htmlBox.textContent =
-        "Generating portfolio...";
-
-      try {
-
-        const cvBase64 =
-          await fileToBase64(cvFile);
-
-        let htmlTemplate = "";
-
-        /*
-          User uploaded custom portfolio
-        */
-
-        if (portfolioFile) {
-
-          htmlTemplate =
-            await portfolioFile.text();
-
-        }
-
-        /*
-          Use default template
-        */
-
-        else {
-
-          const response =
-            await fetch("templete2_prof.html");
-
-          htmlTemplate =
-            await response.text();
-
-        }
-
-        const prompt = `
-
-You are a senior frontend developer
-and AI portfolio builder.
-
-You will receive:
-
-1- CV PDF
-2- HTML portfolio template
-
-The user may:
-- upload custom portfolio
-OR
-- use default template
-
-YOUR TASK:
-
-KEEP:
-- same design
-- same CSS
-- same layout
-- same animations
-- same structure
-
-ONLY replace content.
-
-Replace:
-- Name
-- About
-- Skills
-- Projects
-- Experience
-- Contact
-- Social links
-- Certifications
-
-PROJECTS:
-
-Generate projects dynamically
-based on CV projects.
-
-IMPORTANT:
-
-1- Do NOT redesign layout.
-
-2- Do NOT remove CSS.
-
-3- Do NOT remove animations.
-
-4- Keep classes unchanged.
-
-5- If profile image missing:
-
-Use:
-
-assets/images/profile.png
-
-Add HTML comment:
-
-PLACE PROFILE IMAGE HERE
-
-6- If project image missing:
-
-Use:
-
-assets/images/projects/project-name.png
-
-Add HTML comments.
-
-7- Generate separate instructions.
-
-8- Return EXACTLY in this format:
-
-===INSTRUCTIONS===
-
-instructions here
-
-===HTML===
-
-full html here
-
-HERE IS THE HTML TEMPLATE:
-
-${htmlTemplate}
-
-        `;
-        const response = await fetch(
-
-          "https://api-create-potfolio.vercel.app/api/generate",
-
-          {
-
-            method: "POST",
-
-            headers: {
-              "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-              cvBase64,
-              htmlTemplate
-
-            })
-
-          }
-
-        );
-
-        const data =
-          await response.json();
-
-        console.log(data);
-
-        if (
-          data.candidates &&
-          data.candidates.length > 0
-        ) {
-
-          let fullResponse =
-            data.candidates[0]
-              .content
-              .parts[0]
-              .text;
-
-          /*
-            remove markdown
-          */
-
-          fullResponse =
-            fullResponse
-              .replace(/```html/g, "")
-              .replace(/```/g, "");
-
-          /*
-            split sections
-          */
-
-          const instructionsPart =
-            fullResponse.split(
-              "===HTML==="
-            )[0];
-
-          const htmlPart =
-            fullResponse.split(
-              "===HTML==="
-            )[1];
-
-          const cleanInstructions =
-            instructionsPart.replace(
-              "===INSTRUCTIONS===",
-              ""
-            );
-
-          instructionsBox.textContent =
-            cleanInstructions;
-
-          htmlBox.textContent =
-            htmlPart;
-
-          generatedHTML =
-            htmlPart;
-
-          previewFrame.srcdoc =
-            htmlPart;
-
-        }
-
-        else {
-
-          htmlBox.textContent =
-            JSON.stringify(
-              data,
-              null,
-              2
-            );
-
-        }
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        htmlBox.textContent =
-          "Error happened";
-
-      }
-
+  }
+
+  function downloadHTML() {
+    if (!generatedHTML) {
+      setStatus(currentLang === "ar" ? "لا يوجد ملف لتحميله. قم بالتوليد أولاً" : "No file to download. Generate first.", "error");
+      return;
     }
+    const blob = new Blob([generatedHTML], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "portfolio.html";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
-    function downloadHTML() {
-
-      if (!generatedHTML) {
-
-        alert(
-          "Generate portfolio first"
-        );
-
-        return;
-
-      }
-
-      const blob =
-        new Blob(
-
-          [generatedHTML],
-
-          {
-            type: "text/html"
-          }
-
-        );
-
-      const url =
-        URL.createObjectURL(blob);
-
-      const a =
-        document.createElement("a");
-
-      a.href = url;
-
-      a.download =
-        "portfolio.html";
-
-      a.click();
-
-      URL.revokeObjectURL(url);
-
-    }
-
-  </script>
-
+  function copyText(id) {
+    const el = document.getElementById(id);
+    if (!el || !el.textContent.trim()) return;
+    navigator.clipboard.writeText(el.textContent).then(() => {
+      setStatus(currentLang === "ar" ? "تم النسخ إلى الحافظة" : "Copied to clipboard", "success");
+    });
+  }
+</script>
 </body>
-
 </html>
