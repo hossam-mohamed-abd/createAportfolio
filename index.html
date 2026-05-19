@@ -1075,81 +1075,83 @@
         </div>
       </div>
 
-      <!-- HINTS -->
-      <div class="hints-row fade-in delay-2">
-        <div class="hint-card">
-          <div class="hint-icon hi-cyan"><i class="fa-solid fa-file-pdf"></i></div>
-          <div class="hint-body">
-            <h4><span class="ar">ارفع CV بصيغة PDF</span><span class="en">Upload PDF CV</span></h4>
-            <p><span class="ar">الذكاء الاصطناعي يقرأ بياناتك ويستخرج كل المعلومات تلقائياً</span><span class="en">AI
-                reads your data and extracts all info automatically</span></p>
-          </div>
-        </div>
-        <div class="hint-card">
-          <div class="hint-icon hi-purple"><i class="fa-solid fa-code"></i></div>
-          <div class="hint-body">
-            <h4><span class="ar">رفع تصميم جاهز</span><span class="en">Upload Custom Design</span></h4>
 
-            <p>
-              <span class="ar">
-                قريبًا يمكنك رفع تصميم HTML/CSS خاص بك وسيقوم الذكاء الاصطناعي بتحويل بيانات الـ CV إليه تلقائيًا
-              </span>
+      <div id="generatorUI">
+        <!-- HINTS -->
+        <div class="hints-row fade-in delay-2">
+          <div class="hint-card">
+            <div class="hint-icon hi-cyan"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="hint-body">
+              <h4><span class="ar">ارفع CV بصيغة PDF</span><span class="en">Upload PDF CV</span></h4>
+              <p><span class="ar">الذكاء الاصطناعي يقرأ بياناتك ويستخرج كل المعلومات تلقائياً</span><span class="en">AI
+                  reads your data and extracts all info automatically</span></p>
+            </div>
+          </div>
+          <div class="hint-card">
+            <div class="hint-icon hi-purple"><i class="fa-solid fa-code"></i></div>
+            <div class="hint-body">
+              <h4><span class="ar">رفع تصميم جاهز</span><span class="en">Upload Custom Design</span></h4>
 
-              <span class="en">
-                Coming soon: Upload your own HTML/CSS design and let AI automatically fill it with your CV data
-              </span>
-            </p>
+              <p>
+                <span class="ar">
+                  قريبًا يمكنك رفع تصميم HTML/CSS خاص بك وسيقوم الذكاء الاصطناعي بتحويل بيانات الـ CV إليه تلقائيًا
+                </span>
+
+                <span class="en">
+                  Coming soon: Upload your own HTML/CSS design and let AI automatically fill it with your CV data
+                </span>
+              </p>
+            </div>
+          </div>
+          <div class="hint-card">
+            <div class="hint-icon hi-green"><i class="fa-solid fa-download"></i></div>
+            <div class="hint-body">
+              <h4><span class="ar">نتيجة جاهزة فوراً</span><span class="en">Ready to Download</span></h4>
+              <p><span class="ar">احصل على ملف HTML كامل جاهز للنشر مباشرة على الإنترنت</span><span class="en">Get a
+                  complete HTML file ready to publish online</span></p>
+            </div>
           </div>
         </div>
-        <div class="hint-card">
-          <div class="hint-icon hi-green"><i class="fa-solid fa-download"></i></div>
-          <div class="hint-body">
-            <h4><span class="ar">نتيجة جاهزة فوراً</span><span class="en">Ready to Download</span></h4>
-            <p><span class="ar">احصل على ملف HTML كامل جاهز للنشر مباشرة على الإنترنت</span><span class="en">Get a
-                complete HTML file ready to publish online</span></p>
+
+        <!-- UPLOAD AREA -->
+        <input type="file" id="cvFile" accept=".pdf" onchange="handleFile('cv', this)">
+        <input type="file" id="portfolioFile" accept=".html" onchange="handleFile('portfolio', this)">
+
+        <div class="upload-grid fade-in delay-2">
+          <label class="upload-zone required-badge" id="cvZone" for="cvFile">
+            <div class="upload-icon"><i class="fa-solid fa-file-arrow-up" id="cvIcon"></i></div>
+            <div class="upload-title"><span class="ar">رفع ملف CV</span><span class="en">Upload CV File</span></div>
+            <div class="upload-sub"><span class="ar">اسحب الملف هنا أو اضغط للاختيار<br>صيغة PDF فقط</span><span
+                class="en">Drag & drop or click to browse<br>PDF format only</span></div>
+            <div class="upload-filename" id="cvName"></div>
+          </label>
+
+          <!-- <label class="upload-zone optional-badge" id="portfolioZone" for="portfolioFile"> -->
+          <div class="upload-zone disabled-zone" id="portfolioZone">
+            <div class="upload-icon"><i class="fa-solid fa-palette" id="portfolioIcon"></i></div>
+            <div class="upload-title"><span class="ar">رفع قالب HTML</span><span class="en">Upload HTML Template</span>
+            </div>
+            <div class="upload-sub"><span class="ar">قالب مخصص اختياري<br>سيتم الحفاظ على التصميم بالكامل</span><span
+                class="en">Optional custom template<br>Full design will be preserved</span></div>
+            <div class="upload-filename" id="portfolioName"></div>
           </div>
+          <!-- </label> -->
         </div>
+
+        <!-- STATUS BAR -->
+        <div class="status-bar" id="statusBar">
+          <div class="status-pulse"></div>
+          <span id="statusText"></span>
+        </div>
+
+        <!-- GENERATE BUTTON -->
+        <button class="generate-btn fade-in delay-3" onclick="generatePortfolio()" id="generateBtn">
+          <div class="spinner" id="btnSpinner"></div>
+          <i class="fa-solid fa-wand-magic-sparkles" id="btnIcon"></i>
+          <span class="btn-text-ar ar"><span class="ar">توليد البورتفوليو بالذكاء الاصطناعي</span></span>
+          <span class="btn-text-en en">Generate Portfolio with AI</span>
+        </button>
       </div>
-
-      <!-- UPLOAD AREA -->
-      <input type="file" id="cvFile" accept=".pdf" onchange="handleFile('cv', this)">
-      <input type="file" id="portfolioFile" accept=".html" onchange="handleFile('portfolio', this)">
-
-      <div class="upload-grid fade-in delay-2">
-        <label class="upload-zone required-badge" id="cvZone" for="cvFile">
-          <div class="upload-icon"><i class="fa-solid fa-file-arrow-up" id="cvIcon"></i></div>
-          <div class="upload-title"><span class="ar">رفع ملف CV</span><span class="en">Upload CV File</span></div>
-          <div class="upload-sub"><span class="ar">اسحب الملف هنا أو اضغط للاختيار<br>صيغة PDF فقط</span><span
-              class="en">Drag & drop or click to browse<br>PDF format only</span></div>
-          <div class="upload-filename" id="cvName"></div>
-        </label>
-
-        <!-- <label class="upload-zone optional-badge" id="portfolioZone" for="portfolioFile"> -->
-        <div class="upload-zone disabled-zone" id="portfolioZone">
-          <div class="upload-icon"><i class="fa-solid fa-palette" id="portfolioIcon"></i></div>
-          <div class="upload-title"><span class="ar">رفع قالب HTML</span><span class="en">Upload HTML Template</span>
-          </div>
-          <div class="upload-sub"><span class="ar">قالب مخصص اختياري<br>سيتم الحفاظ على التصميم بالكامل</span><span
-              class="en">Optional custom template<br>Full design will be preserved</span></div>
-          <div class="upload-filename" id="portfolioName"></div>
-        </div>
-        <!-- </label> -->
-      </div>
-
-      <!-- STATUS BAR -->
-      <div class="status-bar" id="statusBar">
-        <div class="status-pulse"></div>
-        <span id="statusText"></span>
-      </div>
-
-      <!-- GENERATE BUTTON -->
-      <button class="generate-btn fade-in delay-3" onclick="generatePortfolio()" id="generateBtn">
-        <div class="spinner" id="btnSpinner"></div>
-        <i class="fa-solid fa-wand-magic-sparkles" id="btnIcon"></i>
-        <span class="btn-text-ar ar"><span class="ar">توليد البورتفوليو بالذكاء الاصطناعي</span></span>
-        <span class="btn-text-en en">Generate Portfolio with AI</span>
-      </button>
-
       <!-- OUTPUT -->
       <div class="output-section fade-in delay-4" id="outputSection" style="display:none">
         <div class="section-label"><span class="ar">النتائج</span><span class="en">Results</span></div>
@@ -1541,9 +1543,17 @@
     </span>
 
   `;
+      document.querySelector(
+        ".output-grid"
+      ).style.display = "none";
+    }
+    function hideGeneratorUI() {
+
+      document.getElementById(
+        "generatorUI"
+      ).style.display = "none";
 
     }
-
     async function generatePortfolio() {
       const cvFile = document.getElementById("cvFile").files[0];
       const portfolioFile = document.getElementById("portfolioFile").files[0];
@@ -1932,6 +1942,10 @@ ${htmlTemplate}
             finalHTML;
 
           savePortfolio(finalHTML);
+          hideGeneratorUI();
+          document.querySelector(
+            ".output-grid"
+          ).style.display = "none";
           setStep(4);
           setStatus(currentLang === "ar" ? "تم توليد البورتفوليو بنجاح" : "Portfolio generated successfully", "success");
           setTimeout(() => showLinkedInModal(), 800);
