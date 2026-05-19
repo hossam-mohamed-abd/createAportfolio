@@ -1262,6 +1262,8 @@
   </div>
   <script>
     let generatedHTML = "";
+    const STORAGE_KEY =
+      "generated_portfolio";
     let currentTheme = "dark";
     let currentLang = "ar";
 
@@ -1451,6 +1453,95 @@
         reader.onload = () => resolve(reader.result.split(",")[1]);
         reader.onerror = e => reject(e);
       });
+    }
+
+    function savePortfolio(html) {
+
+      localStorage.setItem(
+
+        STORAGE_KEY,
+
+        html
+
+      );
+
+    }
+
+    function getSavedPortfolio() {
+
+      return localStorage.getItem(
+        STORAGE_KEY
+      );
+
+    }
+
+    function restorePortfolio() {
+
+      const saved =
+        getSavedPortfolio();
+
+      if (!saved) return;
+
+      generatedHTML =
+        saved;
+
+      document.getElementById(
+        "outputSection"
+      ).style.display = "block";
+
+      const frame =
+        document.getElementById(
+          "previewFrame"
+        );
+
+      frame.style.display = "block";
+
+      frame.srcdoc =
+        saved;
+
+      document.getElementById(
+        "previewPlaceholder"
+      ).style.display = "none";
+
+      setStep(4);
+
+      setStatus(
+
+        currentLang === "ar"
+
+          ? "تم استرجاع البورتفوليو المحفوظ"
+
+          : "Saved portfolio restored",
+
+        "success"
+
+      );
+
+      /*
+        disable generate
+      */
+
+      const btn =
+        document.getElementById(
+          "generateBtn"
+        );
+
+      btn.disabled = true;
+
+      btn.innerHTML = `
+
+    <i class="fa-solid fa-lock"></i>
+
+    <span class="ar">
+      لديك بورتفوليو محفوظ بالفعل
+    </span>
+
+    <span class="en">
+      Portfolio Already Generated
+    </span>
+
+  `;
+
     }
 
     async function generatePortfolio() {
@@ -1839,6 +1930,8 @@ ${htmlTemplate}
 
           generatedHTML =
             finalHTML;
+
+          savePortfolio(finalHTML);
           setStep(4);
           setStatus(currentLang === "ar" ? "تم توليد البورتفوليو بنجاح" : "Portfolio generated successfully", "success");
           setTimeout(() => showLinkedInModal(), 800);
@@ -1902,6 +1995,7 @@ ${htmlTemplate}
     document.getElementById("linkedinModal").addEventListener("click", function (e) {
       if (e.target === this) closeLinkedInModal();
     });
+    restorePortfolio();
   </script>
 </body>
 
