@@ -1966,7 +1966,7 @@ ${htmlTemplate}
 
       } catch (err) {
         console.error(err);
-        setStatus(currentLang === "ar" ? "حدث خطأ أثناء التوليد. تحقق من الاتصال." : "Error during generation. Check your connection.", "error");
+        setStatus(currentLang === "ar" ? "انتهى الحد اليومى حاول مرة اخرى غدا" : "انتهى الحد اليومى حاول مرة اخرى غدا", "error");
         setStep(1);
       } finally {
         btn.disabled = false;
